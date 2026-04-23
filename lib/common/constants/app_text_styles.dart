@@ -10,4 +10,18 @@ class AppTextStyles {
     color: AppColors.red
   );
 
+  static TextStyle mediumText = TextStyle(
+    fontSize: 20,
+    fontFamily: 'Nasalization',
+    fontWeight: .normal,
+    color: AppColors.defaultText,
+  );
+
+  static TextStyle defaultButtons = TextStyle(
+    fontSize: 20,
+    fontFamily: 'Nasalization',
+    fontWeight: .bold,
+    color: AppColors.white,
+  );
+
 }
