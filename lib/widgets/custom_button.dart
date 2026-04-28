@@ -14,7 +14,7 @@ class CustomButton extends StatelessWidget {
   });
 
   final BorderRadius _borderRadius = const BorderRadius.all(
-    Radius.circular(24.0),
+    Radius.circular(8),
   );
 
   @override
@@ -29,8 +29,8 @@ class CustomButton extends StatelessWidget {
             begin: .topCenter,
             end: .bottomCenter,
             colors: [
-              AppColors.blue,
               const Color(0xFF0142CF),
+              AppColors.bluePrimary,
             ]
           )
         ),
@@ -40,7 +40,7 @@ class CustomButton extends StatelessWidget {
           child: Align(
             child: Text(
               text,
-              style: AppTextStyles.defaultButtons,
+              style: AppTextStyles.defaultButtons.copyWith(color: AppColors.white),
             ),
           ),
         ),

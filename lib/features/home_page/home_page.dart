@@ -11,26 +11,35 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.bluePrimary,
         elevation: 4,
         shadowColor: AppColors.black,
-        shape: Border(bottom: BorderSide(color: AppColors.blue, width: 4)),
+        shape: Border(bottom: BorderSide(color: AppColors.redPrimary, width: 4)),
         centerTitle: true,
-        title: Text("NASA", style: AppTextStyles.titleAppBar),
+        title: Text("NASA", style: AppTextStyles.titleAppBar.copyWith(color: AppColors.redPrimary)),
       ),
       body: Column(
-        spacing: 30,
         children: [
-          Image.asset('assets/images/home_bg.jpg'),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: ClipRRect(
+              borderRadius: BorderRadiusGeometry.circular(20),
+              child: Image.asset('assets/images/home_bg.jpg')),
+          ),
+          Text(
+            'Welcome',
+            style: AppTextStyles.largeText.copyWith(color: AppColors.bluePrimary),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Text(
               'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus semper, justo sed cursus vulputate, nibh tellus fringilla odio, at blandit nulla nisi nec enim. Proin vitae leo tortor. Quisque nec volutpat dolor, at eleifend leo. Curabitur tristique nisl eros, vel vulputate dolor posuere id.',
-              style: AppTextStyles.mediumText,
-              textAlign: .justify,
+              style: AppTextStyles.mediumText.copyWith(color: AppColors.defaultText),
+              textAlign: .center,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 60),
             child: CustomButton(
               text: "Gallery",
               onPressed: () {

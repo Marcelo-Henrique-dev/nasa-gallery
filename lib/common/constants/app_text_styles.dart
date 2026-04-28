@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:nasa_app/common/constants/app_colors.dart';
 
 class AppTextStyles {
+  AppTextStyles._();
+
+  static final String _defaultFontFamily = 'Nasalization';
 
   static TextStyle titleAppBar = TextStyle(
     fontSize: 40,
-    fontFamily: 'Nasalization',
+    fontFamily: _defaultFontFamily,
     fontWeight: .bold,
-    color: AppColors.red
   );
 
   static TextStyle mediumText = TextStyle(
-    fontSize: 20,
-    fontFamily: 'Nasalization',
+    fontSize: 18,
+    fontFamily: _defaultFontFamily,
     fontWeight: .normal,
-    color: AppColors.defaultText,
+  );
+
+  static TextStyle largeText = TextStyle(
+    fontSize: 35,
+    fontFamily: _defaultFontFamily,
+    fontWeight: .normal,
   );
 
   static TextStyle defaultButtons = TextStyle(
     fontSize: 20,
-    fontFamily: 'Nasalization',
+    fontFamily: _defaultFontFamily,
     fontWeight: .bold,
-    color: AppColors.white,
+  );
+
+  static TextStyle inputText = TextStyle(
+    fontSize: 14,
+    fontFamily: _defaultFontFamily,
+    fontWeight: .w500
+  );
+
+  static TextStyle inputHintText = TextStyle(
+    fontSize: 12, 
+    fontFamily: _defaultFontFamily,
+    fontWeight: .w400
   );
 
 }
