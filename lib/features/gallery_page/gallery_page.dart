@@ -1,22 +1,46 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:nasa_app/common/constants/app_colors.dart';
 import 'package:nasa_app/common/constants/app_text_styles.dart';
 import 'package:nasa_app/features/home_page/home_page.dart';
+import 'package:nasa_app/service/nasa_service.dart';
 import 'package:nasa_app/widgets/custom_form_field.dart';
 
-class GalleryPage extends StatelessWidget {
+class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key});
+
+  @override
+  State<GalleryPage> createState() => _GalleryPageState();
+}
+
+class _GalleryPageState extends State<GalleryPage> {
+  late Future<List<dynamic>> _nasaPhotos;
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _nasaPhotos = NasaService().searchImages('Mars');
+  }
+
+  void _executeSearch(String value) {
+    if (value.isNotEmpty) {
+      setState(() {
+        _nasaPhotos = NasaService().searchImages(value);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Scaffold(
         floatingActionButton: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
           },
           icon: Icon(Icons.home),
           color: AppColors.white,
@@ -41,70 +65,118 @@ class GalleryPage extends StatelessWidget {
             ),
           ),
         ),
-        body: ListView(
+        body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: const EdgeInsets.all(
+                20
+              ),
               child: Row(
                 spacing: 10,
                 children: [
-                  Expanded(child: CustomFormField()),
+                  Expanded(
+                    child: CustomFormField(
+                      controller: _searchController,
+                      onFieldSubmited: _executeSearch,
+                    ),
+                  ),
                   IconButton(
-                    onPressed: () => log("Filter"),
-                    icon: Icon(Icons.filter_alt),
+                    onPressed: () => _executeSearch(_searchController.text),
+                    icon: Icon(Icons.search),
                     color: AppColors.white,
                     style: IconButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: .all(12),
                       backgroundColor: AppColors.bluePrimary,
+                      shape: CircleBorder(),
+                      iconSize: 35
                     ),
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                right: 20,
-                left: 20,
-                bottom: 30,
-                top: 20,
-              ),
-              child: Column(
-                spacing: 20,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset('assets/images/home_bg.jpg'),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset('assets/images/home_bg.jpg'),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset('assets/images/home_bg.jpg'),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset('assets/images/home_bg.jpg'),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset('assets/images/home_bg.jpg'),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset('assets/images/home_bg.jpg'),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset('assets/images/home_bg.jpg'),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset('assets/images/home_bg.jpg'),
-                  ),
-                ],
+            Expanded(
+              child: FutureBuilder<List<dynamic>>(
+                future: _nasaPhotos,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Erro ao carregar galeria',
+                        style: AppTextStyles.mediumText,
+                      ),
+                    );
+                  }
+
+                  final items = snapshot.data ?? [];
+
+                  if(items.isEmpty){
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: .center,
+                        children: [
+                          Icon(
+                            Icons.search_off,
+                            size: 80,
+                            color: AppColors.redPrimary
+                          ),
+                          Text(
+                            'Nothing founded for:\n "${_searchController.text}"',
+                            style: AppTextStyles.mediumText.copyWith(
+                              color: AppColors.redSecondary
+                            ),
+                            textAlign: .center,
+                          )
+                        ],
+                      ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    padding: EdgeInsets.all(20),
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      final String imageUrl = item['links'][0]['href'];
+                      final String title = item['data'][0]['title'];
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: .circular(20),
+                          color: AppColors.grey,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: .stretch,
+                          children: [
+                            ClipRRect(
+                              borderRadius: .vertical(top: .circular(20)),
+                              child: Image.network(
+                                imageUrl,
+                                height: 250,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) =>
+                                    Icon(Icons.broken_image),
+                              ),
+                            ),
+                            Padding(
+                              padding: .all(12),
+                              child: Text(
+                                title,
+                                style: AppTextStyles.titleAppBar.copyWith(
+                                  fontSize: 14,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ],
