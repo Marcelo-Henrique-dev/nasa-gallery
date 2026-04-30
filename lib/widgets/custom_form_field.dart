@@ -6,10 +6,13 @@ class CustomFormField extends StatelessWidget {
   final ValueChanged<String>? onFieldSubmited;
   final TextEditingController? controller;
 
+  final Icon? sufixIcon;
+
   const CustomFormField({
     super.key,
     this.onFieldSubmited,
     this.controller,
+    this.sufixIcon
   });
 
   @override
@@ -26,6 +29,7 @@ class CustomFormField extends StatelessWidget {
       controller: controller,
       onFieldSubmitted: onFieldSubmited,
       decoration: InputDecoration(
+        suffixIcon: sufixIcon,
         labelText: 'Search',
         focusedBorder: defaultBorder.copyWith(
           borderSide: BorderSide(
@@ -33,6 +37,9 @@ class CustomFormField extends StatelessWidget {
           )
         ),
         enabledBorder: defaultBorder,
+        errorBorder: defaultBorder.copyWith(borderSide: BorderSide(
+          color: AppColors.redSecondary
+        ))
       ),
     );
   }

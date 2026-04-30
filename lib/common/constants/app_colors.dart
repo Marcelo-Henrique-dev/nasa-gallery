@@ -4,8 +4,8 @@ class AppColors {
   AppColors._();
 
   static const List<Color> blueGradient = [
-    Color(0xFF0032A0),
-    Color(0xFFE4002B),
+    AppColors.black,
+    AppColors.blueSecondary,
   ];
 
   static const Color bluePrimary = Color(0xFF0032A0);

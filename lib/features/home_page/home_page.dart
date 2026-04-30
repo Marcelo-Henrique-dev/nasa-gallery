@@ -11,14 +11,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.bluePrimary,
+        backgroundColor: AppColors.grey,
         elevation: 4,
         shadowColor: AppColors.black,
         shape: Border(bottom: BorderSide(color: AppColors.redPrimary, width: 4)),
         centerTitle: true,
         title: Text("NASA", style: AppTextStyles.titleAppBar.copyWith(color: AppColors.redPrimary)),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
           ),
           Text(
             'Welcome',
-            style: AppTextStyles.largeText.copyWith(color: AppColors.bluePrimary),
+            style: AppTextStyles.largeText.copyWith(color: AppColors.bluePrimary), textAlign: .center,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 60),
+            padding: const EdgeInsets.symmetric(horizontal: 90),
             child: CustomButton(
               text: "Gallery",
               onPressed: () {

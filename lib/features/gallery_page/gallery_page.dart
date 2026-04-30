@@ -4,6 +4,7 @@ import 'package:nasa_app/common/constants/app_text_styles.dart';
 import 'package:nasa_app/features/home_page/home_page.dart';
 import 'package:nasa_app/service/nasa_service.dart';
 import 'package:nasa_app/widgets/custom_form_field.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key});
@@ -15,6 +16,8 @@ class GalleryPage extends StatefulWidget {
 class _GalleryPageState extends State<GalleryPage> {
   late Future<List<dynamic>> _nasaPhotos;
   final TextEditingController _searchController = TextEditingController();
+
+  bool _isLoadinImages = true;
 
   @override
   void initState() {
@@ -56,21 +59,19 @@ class _GalleryPageState extends State<GalleryPage> {
           elevation: 4,
           shadowColor: AppColors.black,
           shape: Border(
-            bottom: BorderSide(color: AppColors.bluePrimary, width: 4),
+            bottom: BorderSide(color: AppColors.redPrimary, width: 4),
           ),
           title: Text(
             'Gallery',
             style: AppTextStyles.titleAppBar.copyWith(
-              color: AppColors.bluePrimary,
+              color: AppColors.redPrimary,
             ),
           ),
         ),
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(
-                20
-              ),
+              padding: const EdgeInsets.all(20),
               child: Row(
                 spacing: 10,
                 children: [
@@ -78,16 +79,7 @@ class _GalleryPageState extends State<GalleryPage> {
                     child: CustomFormField(
                       controller: _searchController,
                       onFieldSubmited: _executeSearch,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => _executeSearch(_searchController.text),
-                    icon: Icon(Icons.search),
-                    color: AppColors.white,
-                    style: IconButton.styleFrom(
-                      backgroundColor: AppColors.bluePrimary,
-                      shape: CircleBorder(),
-                      iconSize: 35
+                      sufixIcon: Icon(Icons.search),
                     ),
                   ),
                 ],
@@ -101,6 +93,10 @@ class _GalleryPageState extends State<GalleryPage> {
                     return const Center(child: CircularProgressIndicator());
                   }
 
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    _isLoadinImages = !_isLoadinImages;
+                  }
+
                   if (snapshot.hasError) {
                     return Center(
                       child: Text(
@@ -112,7 +108,7 @@ class _GalleryPageState extends State<GalleryPage> {
 
                   final items = snapshot.data ?? [];
 
-                  if(items.isEmpty){
+                  if (items.isEmpty) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: .center,
@@ -120,15 +116,15 @@ class _GalleryPageState extends State<GalleryPage> {
                           Icon(
                             Icons.search_off,
                             size: 80,
-                            color: AppColors.redPrimary
+                            color: AppColors.redPrimary,
                           ),
                           Text(
                             'Nothing founded for:\n "${_searchController.text}"',
                             style: AppTextStyles.mediumText.copyWith(
-                              color: AppColors.redSecondary
+                              color: AppColors.redSecondary,
                             ),
                             textAlign: .center,
-                          )
+                          ),
                         ],
                       ),
                     );
@@ -150,14 +146,51 @@ class _GalleryPageState extends State<GalleryPage> {
                         child: Column(
                           crossAxisAlignment: .stretch,
                           children: [
-                            ClipRRect(
-                              borderRadius: .vertical(top: .circular(20)),
-                              child: Image.network(
-                                imageUrl,
-                                height: 250,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) =>
-                                    Icon(Icons.broken_image),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    width: 3,
+                                    color: AppColors.blueSecondary,
+                                  ),
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: .vertical(top: .circular(20)),
+                                child: Skeletonizer(
+                                  enabled: _isLoadinImages,
+                                  child: Image.network(
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                          if (loadingProgress == null) return child;
+
+                                          return SizedBox(
+                                            height: 250,
+                                            child: Center(
+                                              child: SizedBox(
+                                                height: 30,
+                                                child: CircularProgressIndicator(
+                                                  value:
+                                                      loadingProgress
+                                                              .expectedTotalBytes !=
+                                                          null
+                                                      ? loadingProgress
+                                                                .cumulativeBytesLoaded /
+                                                            loadingProgress
+                                                                .expectedTotalBytes!
+                                                      : null,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                    imageUrl,
+                                    height: 250,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) =>
+                                        Icon(Icons.broken_image),
+                                  ),
+                                ),
                               ),
                             ),
                             Padding(
