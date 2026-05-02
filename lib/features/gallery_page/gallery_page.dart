@@ -4,7 +4,6 @@ import 'package:nasa_app/common/constants/app_text_styles.dart';
 import 'package:nasa_app/features/home_page/home_page.dart';
 import 'package:nasa_app/service/nasa_service.dart';
 import 'package:nasa_app/widgets/custom_form_field.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key});
@@ -157,39 +156,36 @@ class _GalleryPageState extends State<GalleryPage> {
                               ),
                               child: ClipRRect(
                                 borderRadius: .vertical(top: .circular(20)),
-                                child: Skeletonizer(
-                                  enabled: _isLoadinImages,
-                                  child: Image.network(
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                          if (loadingProgress == null) return child;
-
-                                          return SizedBox(
-                                            height: 250,
-                                            child: Center(
-                                              child: SizedBox(
-                                                height: 30,
-                                                child: CircularProgressIndicator(
-                                                  value:
-                                                      loadingProgress
-                                                              .expectedTotalBytes !=
-                                                          null
-                                                      ? loadingProgress
-                                                                .cumulativeBytesLoaded /
-                                                            loadingProgress
-                                                                .expectedTotalBytes!
-                                                      : null,
-                                                ),
+                                child: Image.network(
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                        if (loadingProgress == null) return child;
+                                
+                                        return SizedBox(
+                                          height: 250,
+                                          child: Center(
+                                            child: SizedBox(
+                                              height: 30,
+                                              child: CircularProgressIndicator(
+                                                value:
+                                                    loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!
+                                                    : null,
                                               ),
                                             ),
-                                          );
-                                        },
-                                    imageUrl,
-                                    height: 250,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (_, _, _) =>
-                                        Icon(Icons.broken_image),
-                                  ),
+                                          ),
+                                        );
+                                      },
+                                  imageUrl,
+                                  height: 250,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, _, _) =>
+                                      Icon(Icons.broken_image),
                                 ),
                               ),
                             ),
