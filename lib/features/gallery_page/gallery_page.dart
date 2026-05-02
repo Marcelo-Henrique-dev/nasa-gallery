@@ -187,7 +187,7 @@ class _GalleryPageState extends State<GalleryPage> {
                                     imageUrl,
                                     height: 250,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (_, __, ___) =>
+                                    errorBuilder: (_, _, _) =>
                                         Icon(Icons.broken_image),
                                   ),
                                 ),
