@@ -6,61 +6,96 @@ class DialogImageDetails extends StatelessWidget {
   final String igmUrl;
   final String title;
   final String description;
-  final String? photographer;
-  final String? date;
+  final String photographer;
+  final String date;
 
-  const DialogImageDetails({super.key, required this.igmUrl, required this.title, required this.description, this.date, this.photographer});
+  const DialogImageDetails({
+    super.key,
+    required this.igmUrl,
+    required this.title,
+    required this.description,
+    required this.date,
+    required this.photographer,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        mainAxisAlignment: .center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.grey,
-              borderRadius: .circular(20)
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                bottom: 20
-              ),
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: .vertical(top: .circular(20)),
-                    child: Image.network(
-                      igmUrl,
-                      height: 250,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) => Icon(Icons.broken_image),
-                    ),
-                  ),
-                  Padding(
-                    padding: .all(12),
-                    child: Text(
-                      title,
-                      style: AppTextStyles.mediumText.copyWith(color: AppColors.blueSecondary),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10
-                    ),
-                    child: Text(
-                      description,
-                      style: AppTextStyles.mediumText.copyWith(fontSize: 14),
-                    ),
-                  )
-                ],
-              ),
-            ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 40,
+      ),
+      child: Center(
+        child: Container(
+          height: 520,
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(20),
           ),
-        ],
+          child: Column(
+            mainAxisSize: MainAxisSize
+                .min,
+            crossAxisAlignment: CrossAxisAlignment
+                .stretch,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+                child: Image.network(
+                  igmUrl,
+                  height: 250,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) =>
+                      const Icon(Icons.broken_image, size: 250),
+                ),
+              ),
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: AppTextStyles.mediumText.copyWith(
+                          color: AppColors.blueSecondary,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        'Photographer: $photographer',
+                        style: AppTextStyles.mediumText.copyWith(
+                          fontSize: 16,
+                          color: AppColors.redPrimary,
+                        ),
+                        maxLines: 2,
+                        overflow: .ellipsis,
+                      ),
+                      const Divider(
+                        height: 20,
+                        thickness: 2,
+                        color: AppColors.bluePrimary,
+                      ),
+                      Text(
+                        description,
+                        style: AppTextStyles.mediumText.copyWith(fontSize: 14),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        date.length >= 10 ? date.substring(0, 10) : date,
+                        style: AppTextStyles.smallText.copyWith(
+                          color: AppColors.defaultText,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

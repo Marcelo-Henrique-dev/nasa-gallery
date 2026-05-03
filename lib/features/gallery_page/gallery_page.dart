@@ -133,7 +133,7 @@ class _GalleryPageState extends State<GalleryPage> {
                       final String title = item['data'][0]['title'];
                       final String description = item['data'][0]['description'];
                       final String date = item['data'][0]['date_created'];
-                      final String photographer = item['data'][0]['photographer'];
+                      final String? photographer = item['data'][0]['photographer'];
                       
                       return Container(
                         margin: EdgeInsets.only(bottom: 20),
@@ -152,7 +152,7 @@ class _GalleryPageState extends State<GalleryPage> {
                                     igmUrl: imageUrl,
                                     title: title,
                                     description: description,
-                                    photographer: photographer,
+                                    photographer: photographer ?? 'Null',
                                     date: date,
                                   ),
                                 );
@@ -197,6 +197,7 @@ class _GalleryPageState extends State<GalleryPage> {
                                 title,
                                 style: AppTextStyles.titleAppBar.copyWith(
                                   fontSize: 14,
+                                  color: AppColors.white
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

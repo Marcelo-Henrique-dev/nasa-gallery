@@ -8,14 +8,14 @@ class AppColors {
     AppColors.blueSecondary,
   ];
 
-  static const Color bluePrimary = Color(0xFF0032A0);
-  static const Color blueSecondary = Color(0xFF0142CF);
-  static const Color redPrimary = Color(0xFFE4002B);
-  static const Color redSecondary = Color(0xFFFF002F);
+  static const Color bluePrimary = Color(0xFF1D4ED8);
+  static const Color blueSecondary = Color(0xFF3B82F6);
+  static const Color redPrimary = Color(0xFFEF4444);
+  static const Color redSecondary = Color(0xFFDC2626);
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
   static const Color iceWhite = Color(0xFFE8FAFA);
-  static const Color defaultText = Color(0xFFb4b4b4);
-  static const Color grey = Color(0xFFECEBEB);
+  static const Color defaultText = Color(0xFF737373);
+  static const Color grey = Color(0xFF6B7280);
 
 }
