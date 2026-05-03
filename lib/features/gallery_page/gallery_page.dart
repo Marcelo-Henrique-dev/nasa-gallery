@@ -169,6 +169,7 @@ class _GalleryPageState extends State<GalleryPage> {
                                             child: SizedBox(
                                               height: 30,
                                               child: CircularProgressIndicator(
+                                                color: AppColors.redPrimary,
                                                 value:
                                                     loadingProgress
                                                             .expectedTotalBytes !=
