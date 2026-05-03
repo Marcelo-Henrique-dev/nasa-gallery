@@ -17,8 +17,6 @@ class _GalleryPageState extends State<GalleryPage> {
   late Future<List<dynamic>> _nasaPhotos;
   final TextEditingController _searchController = TextEditingController();
 
-  bool _isLoadinImages = true;
-
   @override
   void initState() {
     super.initState();
@@ -91,10 +89,6 @@ class _GalleryPageState extends State<GalleryPage> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    _isLoadinImages = !_isLoadinImages;
                   }
 
                   if (snapshot.hasError) {
