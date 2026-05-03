@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nasa_app/common/constants/app_colors.dart';
 import 'package:nasa_app/common/constants/app_text_styles.dart';
+import 'package:nasa_app/features/gallery_page/dialog_image_details.dart';
 import 'package:nasa_app/features/home_page/home_page.dart';
 import 'package:nasa_app/service/nasa_service.dart';
 import 'package:nasa_app/widgets/custom_form_field.dart';
@@ -136,6 +137,10 @@ class _GalleryPageState extends State<GalleryPage> {
                       final item = items[index];
                       final String imageUrl = item['links'][0]['href'];
                       final String title = item['data'][0]['title'];
+                      final String description = item['data'][0]['description'];
+                      final String date = item['data'][0]['date_created'];
+                      final String photographer = item['data'][0]['photographer'];
+                      
                       return Container(
                         margin: EdgeInsets.only(bottom: 20),
                         decoration: BoxDecoration(
@@ -145,22 +150,25 @@ class _GalleryPageState extends State<GalleryPage> {
                         child: Column(
                           crossAxisAlignment: .stretch,
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    width: 3,
-                                    color: AppColors.blueSecondary,
+                            InkWell(
+                              onTap: (){
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => DialogImageDetails(
+                                    igmUrl: imageUrl,
+                                    title: title,
+                                    description: description,
+                                    photographer: photographer,
+                                    date: date,
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                               child: ClipRRect(
                                 borderRadius: .vertical(top: .circular(20)),
                                 child: Image.network(
                                   loadingBuilder:
                                       (context, child, loadingProgress) {
                                         if (loadingProgress == null) return child;
-                                
                                         return SizedBox(
                                           height: 250,
                                           child: Center(
