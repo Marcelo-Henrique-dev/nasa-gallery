@@ -152,7 +152,7 @@ class _GalleryPageState extends State<GalleryPage> {
                                     igmUrl: imageUrl,
                                     title: title,
                                     description: description,
-                                    photographer: photographer ?? 'Null',
+                                    photographer: photographer ?? 'NASA',
                                     date: date,
                                   ),
                                 );
