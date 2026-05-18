@@ -14,9 +14,16 @@ class HomePage extends StatelessWidget {
         backgroundColor: AppColors.grey,
         elevation: 4,
         shadowColor: AppColors.black,
-        shape: Border(bottom: BorderSide(color: AppColors.redPrimary, width: 4)),
+        shape: Border(
+          bottom: BorderSide(color: AppColors.redPrimary, width: 4),
+        ),
         centerTitle: true,
-        title: Text("NASA", style: AppTextStyles.titleAppBar.copyWith(color: AppColors.redPrimary)),
+        title: Text(
+          "NASA",
+          style: AppTextStyles.titleAppBar.copyWith(
+            color: AppColors.redPrimary,
+          ),
+        ),
       ),
       body: ListView(
         children: [
@@ -24,17 +31,23 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: ClipRRect(
               borderRadius: BorderRadiusGeometry.circular(20),
-              child: Image.asset('assets/images/home_bg.jpg')),
+              child: Image.asset('assets/images/home_bg.jpg'),
+            ),
           ),
           Text(
             'Welcome',
-            style: AppTextStyles.largeText.copyWith(color: AppColors.bluePrimary), textAlign: .center,
+            style: AppTextStyles.largeText.copyWith(
+              color: AppColors.bluePrimary,
+            ),
+            textAlign: .center,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus semper, justo sed cursus vulputate, nibh tellus fringilla odio, at blandit nulla nisi nec enim. Proin vitae leo tortor. Quisque nec volutpat dolor, at eleifend leo. Curabitur tristique nisl eros, vel vulputate dolor posuere id.',
-              style: AppTextStyles.mediumText.copyWith(color: AppColors.defaultText),
+              'Explore o Universo Através das Imagens da NASA \n Descubra diariamente as imagens mais impressionantes do espaço capturadas pela NASA. Explore galáxias distantes, nebulosas coloridas, planetas fascinantes e registros incríveis do universo diretamente no seu celular.',
+              style: AppTextStyles.mediumText.copyWith(
+                color: AppColors.defaultText,
+              ),
               textAlign: .center,
             ),
           ),

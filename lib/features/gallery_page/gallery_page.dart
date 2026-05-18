@@ -20,7 +20,7 @@ class _GalleryPageState extends State<GalleryPage> {
   @override
   void initState() {
     super.initState();
-    _nasaPhotos = NasaService().searchImages('Mars');
+    _nasaPhotos = NasaService().searchImages('Earth');
   }
 
   void _executeSearch(String value) {
@@ -40,14 +40,14 @@ class _GalleryPageState extends State<GalleryPage> {
             Navigator.pop(context);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           },
-          icon: Icon(Icons.home),
+          icon: const Icon(Icons.home),
           color: AppColors.white,
           style: IconButton.styleFrom(
-            shape: CircleBorder(),
-            padding: .all(16),
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(16),
             backgroundColor: AppColors.bluePrimary,
           ),
         ),
@@ -56,7 +56,7 @@ class _GalleryPageState extends State<GalleryPage> {
           backgroundColor: AppColors.grey,
           elevation: 4,
           shadowColor: AppColors.black,
-          shape: Border(
+          shape: const Border(
             bottom: BorderSide(color: AppColors.redPrimary, width: 4),
           ),
           title: Text(
@@ -71,13 +71,12 @@ class _GalleryPageState extends State<GalleryPage> {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Row(
-                spacing: 10,
                 children: [
                   Expanded(
                     child: CustomFormField(
                       controller: _searchController,
                       onFieldSubmited: _executeSearch,
-                      sufixIcon: Icon(Icons.search),
+                      sufixIcon: const Icon(Icons.search),
                     ),
                   ),
                 ],
@@ -105,19 +104,19 @@ class _GalleryPageState extends State<GalleryPage> {
                   if (items.isEmpty) {
                     return Center(
                       child: Column(
-                        mainAxisAlignment: .center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.search_off,
                             size: 80,
                             color: AppColors.redPrimary,
                           ),
                           Text(
-                            'Nothing founded for:\n "${_searchController.text}"',
+                            'Nothing found for:\n "${_searchController.text}"',
                             style: AppTextStyles.mediumText.copyWith(
                               color: AppColors.redSecondary,
                             ),
-                            textAlign: .center,
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
@@ -125,31 +124,36 @@ class _GalleryPageState extends State<GalleryPage> {
                   }
 
                   return ListView.builder(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     itemCount: items.length,
                     itemBuilder: (context, index) {
                       final item = items[index];
+                      final Map<String, dynamic> dataMap = item['data'][0];
+
                       final String imageUrl = item['links'][0]['href'];
-                      final String title = item['data'][0]['title'];
-                      final String description = item['data'][0]['description'];
-                      final String date = item['data'][0]['date_created'];
-                      final String? photographer = item['data'][0]['photographer'];
-                      
+                      final String title = dataMap['title'];
+                      final String date = dataMap['date_created'];
+                      final String? photographer = dataMap['photographer'];
+                      final String descriptionKey = dataMap.keys.firstWhere(
+                        (key) => key.startsWith('description'),
+                        orElse: () => 'description',
+                      );
+                      final String description = dataMap[descriptionKey] ?? 'No description available';
                       return Container(
-                        margin: EdgeInsets.only(bottom: 20),
+                        margin: const EdgeInsets.only(bottom: 20),
                         decoration: BoxDecoration(
-                          borderRadius: .circular(20),
+                          borderRadius: BorderRadius.circular(20),
                           color: AppColors.grey,
                         ),
                         child: Column(
-                          crossAxisAlignment: .stretch,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             InkWell(
-                              onTap: (){
+                              onTap: () {
                                 showDialog(
                                   context: context,
                                   builder: (context) => DialogImageDetails(
-                                    igmUrl: imageUrl,
+                                    imgUrl: imageUrl,
                                     title: title,
                                     description: description,
                                     photographer: photographer ?? 'NASA',
@@ -158,47 +162,40 @@ class _GalleryPageState extends State<GalleryPage> {
                                 );
                               },
                               child: ClipRRect(
-                                borderRadius: .vertical(top: .circular(20)),
+                                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                                 child: Image.network(
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                        if (loadingProgress == null) return child;
-                                        return SizedBox(
-                                          height: 250,
-                                          child: Center(
-                                            child: SizedBox(
-                                              height: 30,
-                                              child: CircularProgressIndicator(
-                                                color: AppColors.redPrimary,
-                                                value:
-                                                    loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null
-                                                    ? loadingProgress
-                                                              .cumulativeBytesLoaded /
-                                                          loadingProgress
-                                                              .expectedTotalBytes!
-                                                    : null,
-                                              ),
-                                            ),
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return SizedBox(
+                                      height: 250,
+                                      child: Center(
+                                        child: SizedBox(
+                                          height: 30,
+                                          child: CircularProgressIndicator(
+                                            color: AppColors.redPrimary,
+                                            value: loadingProgress.expectedTotalBytes != null
+                                                ? loadingProgress.cumulativeBytesLoaded /
+                                                    loadingProgress.expectedTotalBytes!
+                                                : null,
                                           ),
-                                        );
-                                      },
+                                        ),
+                                      ),
+                                    );
+                                  },
                                   imageUrl,
                                   height: 250,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, _, _) =>
-                                      Icon(Icons.broken_image),
+                                  errorBuilder: (_, _, _) => const Icon(Icons.broken_image),
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: .all(12),
+                              padding: const EdgeInsets.all(12),
                               child: Text(
                                 title,
                                 style: AppTextStyles.titleAppBar.copyWith(
                                   fontSize: 14,
-                                  color: AppColors.white
+                                  color: AppColors.white,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

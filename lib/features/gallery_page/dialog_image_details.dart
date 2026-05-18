@@ -3,7 +3,7 @@ import 'package:nasa_app/common/constants/app_colors.dart';
 import 'package:nasa_app/common/constants/app_text_styles.dart';
 
 class DialogImageDetails extends StatelessWidget {
-  final String igmUrl;
+  final String imgUrl;
   final String title;
   final String description;
   final String photographer;
@@ -11,7 +11,7 @@ class DialogImageDetails extends StatelessWidget {
 
   const DialogImageDetails({
     super.key,
-    required this.igmUrl,
+    required this.imgUrl,
     required this.title,
     required this.description,
     required this.date,
@@ -21,10 +21,7 @@ class DialogImageDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 40,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
       child: Center(
         child: Container(
           height: 520,
@@ -33,17 +30,15 @@ class DialogImageDetails extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
-            mainAxisSize: MainAxisSize
-                .min,
-            crossAxisAlignment: CrossAxisAlignment
-                .stretch,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(20),
                 ),
                 child: Image.network(
-                  igmUrl,
+                  imgUrl,
                   height: 250,
                   fit: BoxFit.cover,
                   errorBuilder: (_, _, _) =>
@@ -71,7 +66,7 @@ class DialogImageDetails extends StatelessWidget {
                           color: AppColors.redPrimary,
                         ),
                         maxLines: 2,
-                        overflow: .ellipsis,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const Divider(
                         height: 20,
