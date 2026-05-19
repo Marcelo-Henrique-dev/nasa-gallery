@@ -63,8 +63,8 @@ Aplicativo Flutter que pesquisa e exibe imagens do acervo público da NASA usand
 
 ## Autores
 
-### Marcelo Henrique
-### Luanderson Arlindo
-### Arthur Gomes
-### José Renato
-### Luiz Orlando
+#### Marcelo Henrique
+#### Luanderson Arlindo
+#### Arthur Gomes
+#### José Renato
+#### Luiz Orlando
